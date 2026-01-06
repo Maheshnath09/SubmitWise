@@ -95,34 +95,34 @@ export default function DashboardPage() {
             {/* Header */}
             <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
-                            <h1 className="text-2xl font-bold">ProjectGen</h1>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Welcome back, {user?.email}</p>
+                            <h1 className="text-xl sm:text-2xl font-bold">ProjectGen</h1>
+                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate max-w-[200px] sm:max-w-none">Welcome back, {user?.email}</p>
                         </div>
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
                             {/* Plan Badge */}
-                            <div className={`px-3 py-1 rounded-full text-sm font-semibold ${getPlanBadgeColor(subscription.subscription_tier)}`}>
+                            <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${getPlanBadgeColor(subscription.subscription_tier)}`}>
                                 <Crown className="w-3 h-3 inline mr-1" />
                                 {subscription.plan_name}
                             </div>
                             {/* Upgrade or Manage Plan */}
                             {subscription.subscription_tier === 'free' ? (
                                 <Link href="/pricing">
-                                    <Button variant="default" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
-                                        <Zap className="w-4 h-4 mr-2" />
+                                    <Button size="sm" variant="default" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-xs sm:text-sm">
+                                        <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                                         Upgrade
                                     </Button>
                                 </Link>
                             ) : (
                                 <Link href="/pricing">
-                                    <Button variant="outline">
-                                        <Crown className="w-4 h-4 mr-2" />
-                                        Manage Plan
+                                    <Button size="sm" variant="outline" className="text-xs sm:text-sm">
+                                        <Crown className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                                        Manage
                                     </Button>
                                 </Link>
                             )}
-                            <Button variant="outline" onClick={logout}>
+                            <Button size="sm" variant="outline" onClick={logout} className="text-xs sm:text-sm">
                                 Logout
                             </Button>
                         </div>
@@ -200,30 +200,30 @@ export default function DashboardPage() {
                                 {projects.map((project) => (
                                     <div
                                         key={project.id}
-                                        className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors gap-3"
                                     >
-                                        <div className="flex-1">
-                                            <h3 className="font-semibold">{project.title || 'Untitled Project'}</h3>
-                                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="font-semibold text-sm sm:text-base truncate">{project.title || 'Untitled Project'}</h3>
+                                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate">
                                                 {project.subject} • {new Date(project.created_at).toLocaleDateString()}
                                             </p>
                                         </div>
-                                        <div className="flex items-center gap-4">
-                                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}>
+                                        <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                                            <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap ${getStatusColor(project.status)}`}>
                                                 {project.status}
                                             </span>
                                             {project.status === 'completed' && (
                                                 <Link href={`/projects/${project.job_id}`}>
-                                                    <Button size="sm">
-                                                        <Download className="w-4 h-4 mr-2" />
+                                                    <Button size="sm" className="text-xs sm:text-sm">
+                                                        <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                                                         View
                                                     </Button>
                                                 </Link>
                                             )}
                                             {project.status === 'processing' && (
                                                 <Link href={`/projects/${project.job_id}`}>
-                                                    <Button size="sm" variant="outline">
-                                                        View Status
+                                                    <Button size="sm" variant="outline" className="text-xs sm:text-sm">
+                                                        Status
                                                     </Button>
                                                 </Link>
                                             )}
