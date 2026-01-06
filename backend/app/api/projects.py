@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, Request
 from sqlalchemy.orm import Session
 from app.core.database import get_db, SessionLocal
 from app.core.security import get_current_user_id
@@ -254,6 +254,7 @@ async def get_project_preview(
 @router.get("/{job_id}/download", response_model=ProjectDownloadResponse)
 async def download_project(
     job_id: str,
+    request: Request,
     user_id: str = Depends(get_current_user_id),
     db: Session = Depends(get_db)
 ):
@@ -273,8 +274,10 @@ async def download_project(
     if not project.zip_url:
         raise HTTPException(status_code=500, detail="Download URL not available")
     
-    # Return the backend download endpoint with full URL
-    backend_url = f"http://localhost:8000/api/projects/{job_id}/download-file"
+    # Build the download URL dynamically from the request
+    # This ensures production uses the correct production URL
+    base_url = str(request.base_url).rstrip('/')
+    backend_url = f"{base_url}/api/projects/{job_id}/download-file"
     return ProjectDownloadResponse(
         job_id=project.job_id,
         zip_url=backend_url
