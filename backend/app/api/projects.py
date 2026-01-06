@@ -14,6 +14,7 @@ from app.schemas.project import (
 )
 from typing import List
 import uuid
+import io
 
 
 router = APIRouter(prefix="/api/projects", tags=["Projects"])
@@ -320,23 +321,21 @@ async def download_project_file(
     if project.status != "completed":
         raise HTTPException(status_code=400, detail="Project not yet completed")
     
-    # Get file from MinIO
+    # Get file from storage (MinIO or local fallback)
     zip_object_name = f"projects/{project.user_id}/{job_id}/bundle.zip"
     
     try:
+        # Use the get_bytes method which handles both MinIO and local storage
         minio_client.initialize()
-        response = minio_client.client.get_object(
-            minio_client.bucket_name,
-            zip_object_name
-        )
+        file_bytes = minio_client.get_bytes(zip_object_name)
         
         # Create safe filename from project title
         safe_title = re.sub(r'[^\w\s-]', '', project.title or 'Project')[:50].strip()
         download_filename = f"{safe_title.replace(' ', '_')}_project.zip"
         
-        # Stream the file with proper headers
+        # Return the file as a streaming response
         return StreamingResponse(
-            response,
+            io.BytesIO(file_bytes),
             media_type="application/zip",
             headers={
                 "Content-Disposition": f'attachment; filename="{download_filename}"',
