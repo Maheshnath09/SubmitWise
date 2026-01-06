@@ -297,7 +297,10 @@ async def download_project_file(
     token: str = None,  # Accept token as query parameter
     db: Session = Depends(get_db)
 ):
-    """Direct file download with proper filename - accepts token as query param for browser downloads"""
+    """Direct file download - generates ZIP on-demand from project data"""
+    from app.services.docx_generator import docx_generator
+    from app.services.pptx_generator import pptx_generator
+    from app.services.zip_bundler import zip_bundler
     
     # Verify token from query parameter
     if not token:
@@ -324,13 +327,21 @@ async def download_project_file(
     if project.status != "completed":
         raise HTTPException(status_code=400, detail="Project not yet completed")
     
-    # Get file from storage (MinIO or local fallback)
-    zip_object_name = f"projects/{project.user_id}/{job_id}/bundle.zip"
+    if not project.json_data:
+        raise HTTPException(status_code=500, detail="Project data not available")
     
     try:
-        # Use the get_bytes method which handles both MinIO and local storage
-        minio_client.initialize()
-        file_bytes = minio_client.get_bytes(zip_object_name)
+        # Generate documents on-the-fly from stored JSON data
+        project_data = project.json_data
+        
+        # Generate DOCX
+        docx_bytes = docx_generator.generate_report(project_data)
+        
+        # Generate PPTX
+        pptx_bytes = pptx_generator.generate_slides(project_data)
+        
+        # Create ZIP bundle
+        zip_bytes = zip_bundler.create_bundle(project_data, docx_bytes, pptx_bytes)
         
         # Create safe filename from project title
         safe_title = re.sub(r'[^\w\s-]', '', project.title or 'Project')[:50].strip()
@@ -338,7 +349,7 @@ async def download_project_file(
         
         # Return the file as a streaming response
         return StreamingResponse(
-            io.BytesIO(file_bytes),
+            io.BytesIO(zip_bytes),
             media_type="application/zip",
             headers={
                 "Content-Disposition": f'attachment; filename="{download_filename}"',
@@ -346,7 +357,8 @@ async def download_project_file(
             }
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to download file: {str(e)}")
+        print(f"Download generation failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate download: {str(e)}")
 
 
 @router.get("/history", response_model=List[ProjectHistoryItem])
