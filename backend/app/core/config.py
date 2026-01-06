@@ -65,6 +65,8 @@ class Settings(BaseSettings):
         "http://127.0.0.1:3000",
         "http://127.0.0.1:3001",
         "http://frontend:3000",
+        "https://project-gen-ai.vercel.app",
+        "https://*.vercel.app",
     ]
     
     @field_validator('CORS_ORIGINS', mode='before')
