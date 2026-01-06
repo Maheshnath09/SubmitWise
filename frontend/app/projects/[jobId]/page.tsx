@@ -182,9 +182,16 @@ export default function ProjectStatusPage({ params }: { params: { jobId: string 
                                             // Build full download URL with token
                                             const fullUrl = `${downloadUrl}${downloadUrl.includes('?') ? '&' : '?'}token=${token}`;
 
-                                            // Direct navigation - browser handles download with proper filename
-                                            // from server's Content-Disposition header
-                                            window.location.href = fullUrl;
+                                            // Use hidden iframe for download (works better in Chrome)
+                                            const iframe = document.createElement('iframe');
+                                            iframe.style.display = 'none';
+                                            iframe.src = fullUrl;
+                                            document.body.appendChild(iframe);
+
+                                            // Remove iframe after download starts
+                                            setTimeout(() => {
+                                                document.body.removeChild(iframe);
+                                            }, 10000);
                                         }}
                                     >
                                         <Download className="w-4 h-4 mr-2" />
