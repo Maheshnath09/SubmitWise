@@ -173,52 +173,55 @@ export default function ProjectStatusPage({ params }: { params: { jobId: string 
                                         variant="default"
                                         onClick={async () => {
                                             try {
-                                                // Create filename from project title
+                                                // Create proper filename from project title
                                                 const title = status?.title || 'Project';
-                                                const safeTitle = title.replace(/[^a-zA-Z0-9 -]/g, '').replace(/\s+/g, '_');
+                                                const safeTitle = title
+                                                    .replace(/[^a-zA-Z0-9 -]/g, '')
+                                                    .replace(/\s+/g, '_')
+                                                    .substring(0, 50);
                                                 const filename = `${safeTitle}_project.zip`;
 
                                                 // Get the auth token
                                                 const token = localStorage.getItem('access_token');
-                                                const fullUrl = token
-                                                    ? `${downloadUrl}${downloadUrl.includes('?') ? '&' : '?'}token=${token}`
-                                                    : downloadUrl;
-
-                                                // Fetch the file
-                                                const response = await fetch(fullUrl);
-                                                if (!response.ok) {
-                                                    throw new Error(`Download failed: ${response.status}`);
-                                                }
-
-                                                // Get the raw data and create a properly typed blob
-                                                const arrayBuffer = await response.arrayBuffer();
-                                                const blob = new Blob([arrayBuffer], { type: 'application/zip' });
-
-                                                // FileSaver-style download
-                                                // Check for IE/Edge legacy
-                                                if ((navigator as any).msSaveBlob) {
-                                                    (navigator as any).msSaveBlob(blob, filename);
+                                                if (!token) {
+                                                    alert('Please log in again to download');
                                                     return;
                                                 }
 
-                                                // For modern browsers - create object URL
-                                                const blobUrl = URL.createObjectURL(blob);
+                                                const fullUrl = `${downloadUrl}${downloadUrl.includes('?') ? '&' : '?'}token=${token}`;
 
-                                                // Create and style the link
-                                                const link = document.createElement('a');
-                                                link.href = blobUrl;
-                                                link.download = filename;
-                                                link.style.position = 'fixed';
-                                                link.style.left = '-9999px';
-                                                link.style.top = '-9999px';
+                                                console.log('Downloading from:', fullUrl);
+                                                console.log('Saving as:', filename);
 
-                                                // Append, click, remove
-                                                document.body.appendChild(link);
-                                                link.click();
-                                                document.body.removeChild(link);
+                                                // Fetch the ZIP file
+                                                const response = await fetch(fullUrl);
+                                                if (!response.ok) {
+                                                    const errorText = await response.text();
+                                                    throw new Error(`Download failed (${response.status}): ${errorText}`);
+                                                }
 
-                                                // Delay cleanup to ensure download starts
-                                                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+                                                // Get the blob data
+                                                const blob = await response.blob();
+
+                                                // Create a new blob with explicit ZIP type
+                                                const zipBlob = new Blob([blob], { type: 'application/zip' });
+
+                                                // Create download link
+                                                const url = window.URL.createObjectURL(zipBlob);
+                                                const a = document.createElement('a');
+                                                a.style.display = 'none';
+                                                a.href = url;
+                                                a.download = filename; // This sets the filename!
+
+                                                // Trigger download
+                                                document.body.appendChild(a);
+                                                a.click();
+
+                                                // Cleanup
+                                                window.URL.revokeObjectURL(url);
+                                                document.body.removeChild(a);
+
+                                                console.log('Download completed:', filename);
 
                                             } catch (error) {
                                                 console.error('Download failed:', error);
