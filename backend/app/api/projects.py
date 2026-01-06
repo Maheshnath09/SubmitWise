@@ -271,8 +271,9 @@ async def download_project(
     if project.status != "completed":
         raise HTTPException(status_code=400, detail="Project not yet completed")
     
-    if not project.zip_url:
-        raise HTTPException(status_code=500, detail="Download URL not available")
+    # Check if project has JSON data (we generate ZIP on-demand from this)
+    if not project.json_data:
+        raise HTTPException(status_code=500, detail="Project data not available for download")
     
     # Build the download URL dynamically from the request
     # This ensures production uses the correct production URL
