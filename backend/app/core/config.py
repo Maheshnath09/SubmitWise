@@ -1,5 +1,7 @@
 from pydantic_settings import BaseSettings
-from typing import Optional
+from pydantic import field_validator
+from typing import Optional, List, Union
+import os
 
 
 class Settings(BaseSettings):
@@ -24,9 +26,10 @@ class Settings(BaseSettings):
     MINIO_SECRET_KEY: str = "minioadmin"
     MINIO_BUCKET: str = "projectgen-files"
     MINIO_SECURE: bool = False
+    MINIO_ENABLED: bool = True  # Set to False for deployments without MinIO
     
     # Groq API (MANDATORY - Using Llama 3.3 70B Versatile)
-    GROQ_API_KEY: str
+    GROQ_API_KEY: str = ""  # Allow empty default for validation, but required in production
     GROQ_API_URL: str = "https://api.groq.com/openai/v1/chat/completions"
     GROQ_MODEL: str = "llama-3.3-70b-versatile"
     
@@ -55,14 +58,22 @@ class Settings(BaseSettings):
     # Free Tier
     FREE_PROJECTS_PER_MONTH: int = 2
     
-    # CORS
-    CORS_ORIGINS: list = [
+    # CORS - Can be set as comma-separated string in env var
+    CORS_ORIGINS: Union[List[str], str] = [
         "http://localhost:3000",
         "http://localhost:3001",
         "http://127.0.0.1:3000",
         "http://127.0.0.1:3001",
         "http://frontend:3000",
     ]
+    
+    @field_validator('CORS_ORIGINS', mode='before')
+    @classmethod
+    def parse_cors_origins(cls, v):
+        """Parse CORS origins from comma-separated string or list"""
+        if isinstance(v, str):
+            return [origin.strip() for origin in v.split(',') if origin.strip()]
+        return v
     
     class Config:
         env_file = ".env"
