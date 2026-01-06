@@ -171,62 +171,20 @@ export default function ProjectStatusPage({ params }: { params: { jobId: string 
                                     <Button
                                         className="flex-1"
                                         variant="default"
-                                        onClick={async () => {
-                                            try {
-                                                // Create proper filename from project title
-                                                const title = status?.title || 'Project';
-                                                const safeTitle = title
-                                                    .replace(/[^a-zA-Z0-9 -]/g, '')
-                                                    .replace(/\s+/g, '_')
-                                                    .substring(0, 50);
-                                                const filename = `${safeTitle}_project.zip`;
-
-                                                // Get the auth token
-                                                const token = localStorage.getItem('access_token');
-                                                if (!token) {
-                                                    alert('Please log in again to download');
-                                                    return;
-                                                }
-
-                                                const fullUrl = `${downloadUrl}${downloadUrl.includes('?') ? '&' : '?'}token=${token}`;
-
-                                                console.log('Downloading from:', fullUrl);
-                                                console.log('Saving as:', filename);
-
-                                                // Fetch the ZIP file
-                                                const response = await fetch(fullUrl);
-                                                if (!response.ok) {
-                                                    const errorText = await response.text();
-                                                    throw new Error(`Download failed (${response.status}): ${errorText}`);
-                                                }
-
-                                                // Get the blob data
-                                                const blob = await response.blob();
-
-                                                // Create a new blob with explicit ZIP type
-                                                const zipBlob = new Blob([blob], { type: 'application/zip' });
-
-                                                // Create download link
-                                                const url = window.URL.createObjectURL(zipBlob);
-                                                const a = document.createElement('a');
-                                                a.style.display = 'none';
-                                                a.href = url;
-                                                a.download = filename; // This sets the filename!
-
-                                                // Trigger download
-                                                document.body.appendChild(a);
-                                                a.click();
-
-                                                // Cleanup
-                                                window.URL.revokeObjectURL(url);
-                                                document.body.removeChild(a);
-
-                                                console.log('Download completed:', filename);
-
-                                            } catch (error) {
-                                                console.error('Download failed:', error);
-                                                alert('Download failed: ' + (error as Error).message);
+                                        onClick={() => {
+                                            // Get the auth token
+                                            const token = localStorage.getItem('access_token');
+                                            if (!token) {
+                                                alert('Please log in again to download');
+                                                return;
                                             }
+
+                                            // Build full download URL with token
+                                            const fullUrl = `${downloadUrl}${downloadUrl.includes('?') ? '&' : '?'}token=${token}`;
+
+                                            // Direct navigation - browser handles download with proper filename
+                                            // from server's Content-Disposition header
+                                            window.location.href = fullUrl;
                                         }}
                                     >
                                         <Download className="w-4 h-4 mr-2" />
