@@ -136,7 +136,7 @@ export default function LoginPage() {
                     </div>
 
                     {/* Google Sign In Button */}
-                    <div className="w-full [&>div]:w-full [&>div>div]:w-full">
+                    <div className="w-full flex justify-center [&>div]:w-full [&>div>div]:w-full [&>div>div>div]:mx-auto">
                         <GoogleLogin
                             onSuccess={handleGoogleSuccess}
                             onError={handleGoogleError}
