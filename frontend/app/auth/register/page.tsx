@@ -10,6 +10,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { authAPI } from '@/lib/api';
 import { useAuthStore } from '@/lib/store';
 import { Loader2 } from 'lucide-react';
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -57,6 +58,35 @@ export default function RegisterPage() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+        setError('');
+        setLoading(true);
+
+        try {
+            if (!credentialResponse.credential) {
+                throw new Error('No credential received from Google');
+            }
+
+            const response = await authAPI.googleAuth(credentialResponse.credential);
+
+            setAuth(
+                { id: '', email: '', role: 'student', credits: 2 },
+                response.data.access_token,
+                response.data.refresh_token
+            );
+
+            router.push('/dashboard');
+        } catch (err: any) {
+            setError(err.response?.data?.detail || 'Google signup failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleError = () => {
+        setError('Google signup failed. Please try again.');
     };
 
     return (
@@ -115,6 +145,29 @@ export default function RegisterPage() {
                             Create Account
                         </Button>
                     </form>
+
+                    {/* Divider */}
+                    <div className="relative my-6">
+                        <div className="absolute inset-0 flex items-center">
+                            <span className="w-full border-t border-gray-300 dark:border-gray-600" />
+                        </div>
+                        <div className="relative flex justify-center text-xs uppercase">
+                            <span className="bg-white dark:bg-gray-800 px-2 text-gray-500 dark:text-gray-400">
+                                Or continue with
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Google Sign Up Button */}
+                    <div className="flex justify-center">
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={handleGoogleError}
+                            theme="outline"
+                            size="large"
+                            use_fedcm_for_prompt={false}
+                        />
+                    </div>
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-2">
                     <div className="text-sm text-center text-gray-600 dark:text-gray-400">
