@@ -136,13 +136,12 @@ export default function LoginPage() {
                     </div>
 
                     {/* Google Sign In Button */}
-                    <div className="w-full flex justify-center [&>div]:w-full [&>div>div]:w-full [&>div>div>div]:mx-auto">
+                    <div className="flex justify-center">
                         <GoogleLogin
                             onSuccess={handleGoogleSuccess}
                             onError={handleGoogleError}
                             theme="outline"
                             size="large"
-                            width="100%"
                             use_fedcm_for_prompt={false}
                         />
                     </div>
