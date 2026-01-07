@@ -79,7 +79,7 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900 p-4">
-            <Card className="w-full max-w-md bg-white dark:bg-gray-800 border dark:border-gray-700">
+            <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
                     <CardDescription className="text-center">
@@ -136,11 +136,11 @@ export default function LoginPage() {
                     </div>
 
                     {/* Google Sign In Button */}
-                    <div className="w-full">
+                    <div className="w-full [&>div]:w-full [&>div>div]:w-full">
                         <GoogleLogin
                             onSuccess={handleGoogleSuccess}
                             onError={handleGoogleError}
-                            theme="filled_black"
+                            theme="outline"
                             size="large"
                             width="100%"
                             use_fedcm_for_prompt={false}
