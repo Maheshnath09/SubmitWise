@@ -130,7 +130,7 @@ graph TB
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/SubmitWise.git
-cd projectgen-ai
+cd SubmitWise
 
 # Copy environment file
 cp .env.example .env
