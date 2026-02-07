@@ -6,7 +6,7 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "ProjectGen - AI-Powered College Project Generator",
+    title: "SubmitWise - AI-Powered College Project Generator",
     description: "Generate complete semester projects with AI - code, reports, slides, and more",
 };
 

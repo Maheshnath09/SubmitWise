@@ -12,7 +12,7 @@ const pricingPlans = [
         name: 'Free',
         price: '₹0',
         period: '/month',
-        description: 'Perfect for trying out ProjectGen',
+        description: 'Perfect for trying out SubmitWise',
         features: [
             '2 projects per month',
             'All document types (DOCX, PPTX)',

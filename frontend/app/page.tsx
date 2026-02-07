@@ -14,7 +14,7 @@ export default function HomePage() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                         <div>
-                            <h3 className="text-xl font-bold mb-4">ProjectGen</h3>
+                            <h3 className="text-xl font-bold mb-4">SubmitWise</h3>
                             <p className="text-gray-400">
                                 AI-powered college project generator for Indian students
                             </p>
@@ -44,7 +44,7 @@ export default function HomePage() {
                         </div>
                     </div>
                     <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                        <p>&copy; 2024 ProjectGen. All rights reserved.</p>
+                        <p>&copy; 2024 SubmitWise. All rights reserved.</p>
                     </div>
                 </div>
             </footer>

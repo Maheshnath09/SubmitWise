@@ -22,7 +22,7 @@ const pricingPlans = [
         price: 0,
         displayPrice: '₹0',
         period: '/month',
-        description: 'Perfect for trying out ProjectGen',
+        description: 'Perfect for trying out SubmitWise',
         features: [
             '2 projects per month',
             'All document types (DOCX, PPTX)',
@@ -141,7 +141,7 @@ export default function PricingPage() {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                 amount: orderData.amount,
                 currency: orderData.currency,
-                name: 'ProjectGen',
+                name: 'SubmitWise',
                 description: `Upgrade to ${orderData.plan_name} Plan`,
                 prefill: orderData.prefill,
                 theme: {

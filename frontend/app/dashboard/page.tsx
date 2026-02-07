@@ -97,7 +97,7 @@ export default function DashboardPage() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
-                            <h1 className="text-xl sm:text-2xl font-bold">ProjectGen</h1>
+                            <h1 className="text-xl sm:text-2xl font-bold">SubmitWise</h1>
                             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate max-w-[200px] sm:max-w-none">Welcome back, {user?.email}</p>
                         </div>
                         <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
