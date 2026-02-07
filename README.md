@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎓 ProjectGen AI
+# 🎓 SubmitWise
 
 **AI-Powered Semester Project Generator for Indian Engineering & Diploma Students**
 
@@ -11,7 +11,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
 <p align="center">
-  <img src="https://via.placeholder.com/800x400/8B5CF6/FFFFFF?text=ProjectGen+AI+-+Generate+Complete+Projects+in+Minutes" alt="ProjectGen Banner" width="100%">
+  <img src="https://via.placeholder.com/800x400/8B5CF6/FFFFFF?text=ProjectGen+AI+-+Generate+Complete+Projects+in+Minutes" alt="SubmitWise Banner" width="100%">
 </p>
 
 [Live Demo](#) • [Documentation](#-api-documentation) • [Quick Start](#-quick-start) • [Architecture](#-system-architecture)
@@ -20,9 +20,9 @@
 
 ---
 
-## 🌟 What is ProjectGen AI?
+## 🌟 What is SubmitWise?
 
-ProjectGen AI is a production-ready SaaS platform that **generates complete semester project deliverables** for Indian engineering and diploma students. Using **Groq's Llama 3.3 70B** model with RAG (Retrieval-Augmented Generation), it produces professional-grade outputs following **GTU, VTU, AICTE, and Government Polytechnic standards**.
+SubmitWise is a production-ready AI SaaS platform that **generates complete semester project deliverables** for Indian engineering and diploma students. Using **Groq's Llama 3.3 70B** model with RAG (Retrieval-Augmented Generation), it produces professional-grade outputs following **GTU, VTU, AICTE, and Government Polytechnic standards**.
 
 ### ✨ What You Get
 
@@ -129,7 +129,7 @@ graph TB
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/projectgen-ai.git
+git clone https://github.com/yourusername/SubmitWise.git
 cd projectgen-ai
 
 # Copy environment file
@@ -155,7 +155,7 @@ docker-compose up -d
 ## 📂 Project Structure
 
 ```
-projectgen-ai/
+SubmitWise/
 ├── 📁 backend/                    # FastAPI Backend
 │   ├── app/
 │   │   ├── api/                   # REST Endpoints
@@ -403,7 +403,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 💬 Support
 
-- 📧 **Email**: support@projectgen.ai
+- 📧 **Email**: support@SubmitWise
 - 🐛 **Issues**: [GitHub Issues](https://github.com/yourusername/projectgen-ai/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/yourusername/projectgen-ai/discussions)
 
