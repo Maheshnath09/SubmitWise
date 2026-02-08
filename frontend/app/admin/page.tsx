@@ -22,18 +22,22 @@ const COLORS = ['#8B5CF6', '#3B82F6', '#10B981', '#F59E0B', '#EF4444'];
 
 export default function AdminDashboard() {
     const router = useRouter();
-    const { user, isAuthenticated } = useAuthStore();
+    const { user, isAuthenticated, hasHydrated } = useAuthStore();
     const [stats, setStats] = useState<UsageStats | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!isAuthenticated || (user?.role !== 'college_admin' && user?.role !== 'platform_admin')) {
+        console.log('Admin Page Auth State:', { isAuthenticated, role: user?.role, user });
+        if (hasHydrated && (!isAuthenticated || (user?.role !== 'college_admin' && user?.role !== 'platform_admin'))) {
+            console.log('Redirecting to dashboard. Reason:', !isAuthenticated ? 'Not authenticated' : `Invalid role: ${user?.role}`);
             router.push('/dashboard');
             return;
         }
 
-        loadStats();
-    }, [isAuthenticated, user, router]);
+        if (isAuthenticated) {
+            loadStats();
+        }
+    }, [isAuthenticated, user, router, hasHydrated]);
 
     const loadStats = async () => {
         try {
