@@ -40,7 +40,13 @@ async def register(user_data: UserRegister, db: Session = Depends(get_db)):
     
     return TokenResponse(
         access_token=access_token,
-        refresh_token=refresh_token
+        refresh_token=refresh_token,
+        user=UserMinimal(
+            id=user.id,
+            email=user.email,
+            role=user.role,
+            credits=user.credits
+        )
     )
 
 
@@ -69,7 +75,13 @@ async def login(credentials: UserLogin, db: Session = Depends(get_db)):
     
     return TokenResponse(
         access_token=access_token,
-        refresh_token=refresh_token
+        refresh_token=refresh_token,
+        user=UserMinimal(
+            id=user.id,
+            email=user.email,
+            role=user.role,
+            credits=user.credits
+        )
     )
 
 
@@ -166,7 +178,13 @@ async def google_auth(auth_data: GoogleAuthRequest, db: Session = Depends(get_db
             
             return TokenResponse(
                 access_token=access_token,
-                refresh_token=refresh_token
+                refresh_token=refresh_token,
+                user=UserMinimal(
+                    id=user.id,
+                    email=user.email,
+                    role=user.role,
+                    credits=user.credits
+                )
             )
             
     except httpx.RequestError as e:

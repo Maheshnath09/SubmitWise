@@ -35,7 +35,7 @@ export default function LoginPage() {
             });
 
             setAuth(
-                { id: '', email: formData.email, role: 'student', credits: 2 },
+                response.data.user,
                 response.data.access_token,
                 response.data.refresh_token
             );
@@ -60,7 +60,7 @@ export default function LoginPage() {
             const response = await authAPI.googleAuth(credentialResponse.credential);
 
             setAuth(
-                { id: '', email: '', role: 'student', credits: 2 },
+                response.data.user,
                 response.data.access_token,
                 response.data.refresh_token
             );

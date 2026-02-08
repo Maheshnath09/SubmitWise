@@ -13,10 +13,17 @@ class UserLogin(BaseModel):
     password: str
 
 
+class UserMinimal(BaseModel):
+    id: str
+    email: EmailStr
+    role: str
+    credits: int
+
 class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
+    user: UserMinimal
 
 
 class UserOnboard(BaseModel):
