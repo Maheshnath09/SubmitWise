@@ -11,7 +11,7 @@ from contextlib import asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup and shutdown events"""
     # Startup
-    print("Starting ProjectGen API...")
+    print("Starting SubmitWise API...")
     
     # Initialize database
     init_db()
@@ -24,7 +24,7 @@ async def lifespan(app: FastAPI):
     yield
     
     # Shutdown
-    print("Shutting down ProjectGen API...")
+    print("Shutting down SubmitWise API...")
 
 
 # Create FastAPI app

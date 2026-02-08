@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     """Application configuration settings"""
     
     # App
-    APP_NAME: str = "ProjectGen"
+    APP_NAME: str = "SubmitWise"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = False
     
@@ -65,8 +65,8 @@ class Settings(BaseSettings):
         "http://127.0.0.1:3000",
         "http://127.0.0.1:3001",
         "http://frontend:3000",
+        "https://submitwise.vercel.app",
         "https://project-gen-ai.vercel.app",
-        "https://*.vercel.app",
     ]
     
     @field_validator('CORS_ORIGINS', mode='before')
