@@ -27,9 +27,7 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log('Admin Page Auth State:', { isAuthenticated, role: user?.role, user });
         if (hasHydrated && (!isAuthenticated || (user?.role !== 'college_admin' && user?.role !== 'platform_admin'))) {
-            console.log('Redirecting to dashboard. Reason:', !isAuthenticated ? 'Not authenticated' : `Invalid role: ${user?.role}`);
             router.push('/dashboard');
             return;
         }
