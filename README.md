@@ -403,7 +403,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 💬 Support
 
-- 📧 **Email**: support@SubmitWise
+- 📧 **Email**: [support@SubmitWise](mailto:support@SubmitWise)
 - 🐛 **Issues**: [GitHub Issues](https://github.com/yourusername/projectgen-ai/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/yourusername/projectgen-ai/discussions)
 
